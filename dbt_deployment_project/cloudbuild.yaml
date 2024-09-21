@@ -1,0 +1,19 @@
+steps:
+  # Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/essential-cairn-380706/dbt_deployment_project', '.']
+
+  # Push the Docker image to the container registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/essential-cairn-380706/dbt_deployment_project']
+
+  # Deploy the Docker image to Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'dbt-run'
+      - '--image=gcr.io/essential-cairn-380706/dbt_deployment_project'
+      - '--platform=managed'
+      - '--region=us-central1'
+      - '--allow-unauthenticated'

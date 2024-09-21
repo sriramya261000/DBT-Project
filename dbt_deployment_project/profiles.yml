@@ -1,0 +1,14 @@
+dbt_deployment_project:
+  outputs:
+
+    dev:
+      type: bigquery
+      method: service-account
+      project: essential-cairn-380706
+      dataset: liquor_sales
+      threads: 4
+      keyfile: /secrets/dbt-secret
+      timeout_seconds: 300
+      priority: interactive
+      retries: 1
+  target: dev
